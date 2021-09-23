@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -17,16 +18,18 @@
     </div>
 
     <div class="container">
-    <form action = "/" method="POST">
-        <div class="form-group">
-            <label for="usr">Enter your phrase here:</label>
-            <input name = "text" type="text" class="form-control" id="usr">
-        </div>
-        <p>{{text}}</p>
-        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
-        <button type="button" class="btn btn-primary btn-lg">Test</button>
-        <button type="button" class="btn btn-primary btn-lg">Clear</button>
-    </form>
+        <form action="/" method="POST">
+            <div class="form-group">
+                <label for="usr">Enter your phrase here:</label>
+                <input name="text" type="text" class="form-control" id="usr">
+            </div>
+            <div class="output_class">
+                <p>{{text}}</p>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            <button type="button" class="btn btn-primary btn-lg">Test</button>
+            <button type="button" class="btn btn-primary btn-lg">Clear</button>
+        </form>
     </div>
 
     ​
