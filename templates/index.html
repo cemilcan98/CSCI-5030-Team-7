@@ -14,18 +14,20 @@
     ​
     <div class="jumbotron text-center">
         <h1>We can put some information here for users</h1>
-        <p>Resize this responsive page to see the effect!</p>
     </div>
 
     <div class="container">
+    <form action = "/" method="POST">
         <div class="form-group">
             <label for="usr">Enter your phrase here:</label>
-            <input type="text" class="form-control" id="usr">
-          </div>
-        <button type="button" class="btn btn-primary btn-lg">Submit</button>
+            <input name = "text" type="text" class="form-control" id="usr">
+        </div>
+        <p>{{text}}</p>
+        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
         <button type="button" class="btn btn-primary btn-lg">Test</button>
         <button type="button" class="btn btn-primary btn-lg">Clear</button>
-
+    </form>
     </div>
+
     ​
 </body>
