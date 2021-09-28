@@ -3,9 +3,11 @@ from flask_session import Session
 from hunspell import Hunspell
 
 app = Flask(__name__, template_folder="templates")
+
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 h = Hunspell()
+
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
@@ -21,10 +23,13 @@ def index():
             if h.spell(word) == True : continue
             suggest = h.suggest(word)
             misspelled.append(word)
-            suggestions.append(suggest)      
-        return render_template("/index.html", text = text, misspelled = misspelled, suggestions = suggestions)    
+            suggestions.append(suggest)
+            
+        return render_template("/index.html", text = text, misspelled = misspelled, suggestions = suggestions)
+    
     else:
         return render_template("/index.html")
+
 
 if __name__ == "__main__":
     app.run()
