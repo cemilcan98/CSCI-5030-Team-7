@@ -13,7 +13,7 @@ def index():
     if request.method == "POST":
         if not request.form.get("text"):
             error = "Please provide a text to check"
-            return render_template("index.html", text=error)
+            return render_template("index.html", error=error)
         text = request.form.get("text")
         words = text.split()
         suggestions = []
