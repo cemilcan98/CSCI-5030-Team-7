@@ -1,0 +1,10 @@
+.output_class{
+    background-color:gray;
+    border-color: red;
+}
+
+#output_text{
+    color: red;
+    font-size: 10px;
+}
+
