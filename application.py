@@ -19,7 +19,8 @@ def index():
         suggestions = []
         misspelled = []
         for word in words:
-            if h.spell(word) == True: continue
+            if h.spell(word) == True:
+                continue
             suggest = h.suggest(word)
             misspelled.append(word)
             suggestions.append(suggest)
