@@ -24,13 +24,14 @@
                 <input name="text" type="text" class="form-control" id="usr">
             </div>
             <div class="output_class">
-                <p>{{text}}</p>
+                <p>{{error}}</p>
+                <p id = "text">Text: {{text}}</p>
+                <p id = "misspelled">Misspelled Words: {{misspelled}}</p>
+                <p id = "suggestions">Suggestions: {{suggestions}}</p>
             </div>
             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
             <button type="button" class="btn btn-primary btn-lg">Test</button>
             <button type="button" class="btn btn-primary btn-lg">Clear</button>
         </form>
-    </div>
-
-    ​
+    </div>    ​
 </body>
