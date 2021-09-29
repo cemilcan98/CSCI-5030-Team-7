@@ -1,6 +1,7 @@
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
 from hunspell import Hunspell
+import string
 
 app = Flask(__name__, template_folder="templates")
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -15,7 +16,8 @@ def index():
             error = "Please provide a text to check"
             return render_template("index.html", error=error)
         text = request.form.get("text")
-        words = text.split()
+        clear_text = text.translate(str.maketrans('', '', string.punctuation))
+        words = clear_text.split()
         suggestions = []
         misspelled = []
         for word in words:
