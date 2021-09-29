@@ -16,8 +16,11 @@ def index():
             error = "Please provide a text to check"
             return render_template("index.html", error=error)
         text = request.form.get("text")
-        clear_text = text.translate(str.maketrans('', '', string.punctuation))
-        words = clear_text.split()
+        punc = '''!()-[]{};:"\,<>./?@#$%^&*_~'''
+        for element in text:
+            if element in punc:
+                text = text.replace(element, "")
+        words = text.split()
         suggestions = []
         misspelled = []
         for word in words:
