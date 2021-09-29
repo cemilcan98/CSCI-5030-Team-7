@@ -1,6 +1,8 @@
 .output_class{
-    background-color:gray;
-    border-color: red;
+    background-color:whitesmoke;
+    border-style: double;
+    padding: 10px;
+    margin: 10px;
 }
 
 #output_text{
