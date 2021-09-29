@@ -12,24 +12,28 @@ h = Hunspell()
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        if not request.form.get("text"):
-            error = "Please provide a text to check"
-            return render_template("index.html", error=error)
-        text = request.form.get("text")
-        punc = '''!()-[]{};:"\,<>./?@#$%^&*_~'''
-        for element in text:
-            if element in punc:
-                text = text.replace(element, "")
-        words = text.split()
-        suggestions = []
-        misspelled = []
-        for word in words:
-            if h.spell(word) == True:
-                continue
-            suggest = h.suggest(word)
-            misspelled.append(word)
-            suggestions.append(suggest)
-        return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)
+        if request.form["submit_button"] == "submit":
+            if not request.form.get("text"):
+                error = "Please provide a text to check"
+                return render_template("index.html", error=error)
+            text = request.form.get("text")
+            punc = '''!()-[]{};:"\,<>./?@#$%^&*_~'''
+            for element in text:
+                if element in punc:
+                    text = text.replace(element, "")
+            words = text.split()
+            suggestions = []
+            misspelled = []
+            for word in words:
+                if h.spell(word) == True:
+                    continue
+                suggest = h.suggest(word)
+                misspelled.append(word)
+                suggestions.append(suggest)
+                return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)        
+        elif request.form["submit_button"] == "clear":
+            return render_template("/index.html")
+        
     else:
         return render_template("/index.html")
 
