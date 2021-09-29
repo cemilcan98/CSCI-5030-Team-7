@@ -2,35 +2,20 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 from flask_session import Session
 from hunspell import Hunspell
 
-app = Flask(__name__, template_folder="templates")
-
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-
-h = Hunspell()
-
-
-@app.route("/", methods=["GET", "POST"])
-def index():
-    if request.method == "POST":
-        if not request.form.get("text"):
-            error = "Please provide a text to check"
-            return render_template("index.html", text=error)
-        text = request.form.get("text")
-        words = text.split()
-        suggestions = []
-        misspelled = []
-        for word in words:
-            if h.spell(word) == True:
-                continue
-            suggest = h.suggest(word)
-            misspelled.append(word)
-            suggestions.append(suggest)
-
-        return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)
-
-    else:
-        return render_template("/index.html")
-
-
-if __name__ == "__main__":
-    app.run()
+# initializing string
+test_str = "You're a nice person."
+ 
+# printing original string
+print("The original string is : " + test_str)
+ 
+# initializing punctuations string
+punc = '''!()-[]{};:"\,<>./?@#$%^&*_~'''
+ 
+# Removing punctuations in string
+# Using loop + punctuation string
+for ele in test_str:
+    if ele in punc:
+        test_str = test_str.replace(ele, "")
+ 
+# printing result
+print("The string after punctuation filter : " + test_str)
