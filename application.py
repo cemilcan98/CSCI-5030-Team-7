@@ -30,7 +30,9 @@ def index():
                 suggest = h.suggest(word)
                 misspelled.append(word)
                 suggestions.append(suggest)
-                return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)        
+
+            return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)            
+
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
         
