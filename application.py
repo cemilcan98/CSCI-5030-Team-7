@@ -1,3 +1,4 @@
+from os import terminal_size
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_session import Session
 from hunspell import Hunspell
@@ -25,15 +26,15 @@ def index():
                 if element in punc:
                     text = text.replace(element, "")
             words = text.split()
-            suggestions = []
             misspelled = []
             landetect.detect(words)
             for word in words:
                 if h.spell(word) == True:
                     continue
-                suggest = h.suggest(word)
                 misspelled.append(word)
-                suggestions.append(suggest)
+            suggestions = dict.fromkeys(misspelled)
+            for key in suggestions:
+                suggestions[key] = h.suggest(key)
 
             return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)
 
@@ -45,5 +46,5 @@ def index():
 
 
 if __name__ == "__main__":
-    app.debug = True
+
     app.run()
