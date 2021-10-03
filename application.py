@@ -2,6 +2,9 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, ses
 from flask_session import Session
 from hunspell import Hunspell
 import string
+import sys
+import landetect
+
 
 app = Flask(__name__, template_folder="templates")
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -24,6 +27,7 @@ def index():
             words = text.split()
             suggestions = []
             misspelled = []
+            landetect.detect(words)
             for word in words:
                 if h.spell(word) == True:
                     continue
@@ -31,14 +35,15 @@ def index():
                 misspelled.append(word)
                 suggestions.append(suggest)
 
-            return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)            
+            return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)
 
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
-        
+
     else:
         return render_template("/index.html")
 
 
 if __name__ == "__main__":
+    app.debug = True
     app.run()
