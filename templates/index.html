@@ -26,8 +26,15 @@
             <div class="output_class">
                 <p>{{error}}</p>
                 <p id="text">Text: {{text}}</p>
-                <p id="misspelled">Misspelled Words: {{misspelled}}</p>
-                <p id="suggestions">Suggestions: {{suggestions}}</p>
+                <p id="misspelled">Misspelled Words:</p>
+                {% for word in misspelled %}
+                <select>
+                    <option value="" disabled selected>{{word}}</option>
+                    {% for key in suggestions[word] %}
+                    <option value = {{key}}>{{key}}</option>
+                    {% endfor %}
+                </select>
+                {% endfor %}
             </div>
             <button type="submit" name = "submit_button" class="btn btn-primary btn-lg" value = "submit">Submit</button>
             <button type="submit" name = "submit_button" class="btn btn-danger btn-lg" value = "clear">Clear</button>
