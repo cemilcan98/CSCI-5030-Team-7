@@ -53,10 +53,12 @@
                 <select>
                     <option value="" disabled selected>{{word}}</option>
                     {% for key in suggestions[word] %}
-                    <option value = {{key}}>{{key}}</option>
+                    <option value={{key}}>{{key}}</option>
                     {% endfor %}
                 </select>
                 {% endfor %}
+                <!-- this tag was added by Amir-->
+                <p id="notEng">Detect Language: {{notEng}}</p>
             </div>
             <button type="submit" name="submit_button" class="btn btn-primary btn-lg" value="submit">Submit</button>
             <button type="submit" name="submit_button" class="btn btn-danger btn-lg" value="clear">Clear</button>
