@@ -14,8 +14,6 @@ def isEnglish(text):
 
 def detect(words):
 
-    print("in langdetect.py file: this is words: ")
-    print(words)
     flag = False
     for i in words:
         if isEnglish(i):
@@ -25,5 +23,4 @@ def detect(words):
             print("this is word: ", i, " and it is not an alphabet")
             flag = False
 
-    print("flag is : ", flag)
     return flag
