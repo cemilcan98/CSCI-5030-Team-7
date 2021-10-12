@@ -2,6 +2,17 @@
 <html>
 
 <head>
+    
+    <style>
+        body
+        .navbar{
+            overflow: hidden;
+            background-color:rgb(53, 52, 52);
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+    </style>
     <title>Context Sensitive Spelling Detection</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,13 +20,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/style.css">
+
+   
 </head>
 
 <body>
+
+    <nav class="navbar">
+        <div id="main">
+            <span style="font-size:20px;cursor:pointer;"></span>
+            <a class="navbar-brand" href="#" style="color:rgb(236, 236, 247);font-family: 'Times New Roman';">
+            ContextSpellChecker
+            </a>
+        </div>
+    </nav>
     ​
-    <div class="jumbotron text-center">
-        <h1>Team 7 - Context Spell Checking Website</h1>
-    </div>
+   <div class="jumbotron text-center">
+       <h1>Team 7- Context Spell Checking Website</h1>
+   </div>
 
     <div class="container">
         <form action="/" method="POST">
@@ -36,8 +58,8 @@
                 </select>
                 {% endfor %}
             </div>
-            <button type="submit" name = "submit_button" class="btn btn-primary btn-lg" value = "submit">Submit</button>
-            <button type="submit" name = "submit_button" class="btn btn-danger btn-lg" value = "clear">Clear</button>
+            <button type="submit" name="submit_button" class="btn btn-primary btn-lg" value="submit">Submit</button>
+            <button type="submit" name="submit_button" class="btn btn-danger btn-lg" value="clear">Clear</button>
             <select name=lang class="Lang-Dropdown">
                 <option value="" disabled selected>Select Language</option>
                 <option value="English">English (EN-US)</option>
