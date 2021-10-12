@@ -4,7 +4,7 @@ from flask_session import Session
 from hunspell import Hunspell
 import string
 import sys
-import landetect
+import langetect
 
 
 app = Flask(__name__, template_folder="templates")

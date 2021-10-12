@@ -3,9 +3,9 @@
 import re
 
 
-def isEnglish(x):
+def isEnglish(text):
     try:
-        x.encode(encoding='utf-8').decode('ascii')
+        text.encode(encoding='utf-8').decode('ascii')
     except UnicodeDecodeError:
         return False
     else:
