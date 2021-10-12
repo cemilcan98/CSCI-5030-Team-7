@@ -29,9 +29,9 @@ def index():
             misspelled = []
             # Amir
             # this function check if text in english or not
-            isEng = landetect.detect(words)
+            isEng = langDetect.detect(words)
             notEng = ""
-            if not(landetect.detect(words)):
+            if not(langDetect.detect(words)):
                 notEng = "The text is not in English."
             else:
                 notEng = "The text is in English."
