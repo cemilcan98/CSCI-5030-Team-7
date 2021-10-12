@@ -1,11 +1,29 @@
+# -*- coding: utf-8 -*-
+
 import re
 
 
-def detect(word):
-    word = "hello"
-    reg = re.compile(r'[a-zA-Z]')
-
-    if reg.match(word):
-        print("It is an alphabet")
+def isEnglish(x):
+    try:
+        x.encode(encoding='utf-8').decode('ascii')
+    except UnicodeDecodeError:
+        return False
     else:
-        print("It is not an alphabet")
+        return True
+
+
+def detect(words):
+
+    print("in langdetect.py file: this is words: ")
+    print(words)
+    flag = False
+    for i in words:
+        if isEnglish(i):
+            print("this is word: ", i, " and it is an alphabet")
+            flag = True
+        else:
+            print("this is word: ", i, " and it is not an alphabet")
+            flag = False
+
+    print("flag is : ", flag)
+    return flag

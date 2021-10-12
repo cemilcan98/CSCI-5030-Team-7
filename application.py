@@ -27,16 +27,27 @@ def index():
                     text = text.replace(element, "")
             words = text.split()
             misspelled = []
-            landetect.detect(words)
-            for word in words:
-                if h.spell(word) == True:
-                    continue
-                misspelled.append(word)
-            suggestions = dict.fromkeys(misspelled)
-            for key in suggestions:
-                suggestions[key] = h.suggest(key)
+            # Amir
+            # this function check if text in english or not
+            isEng = landetect.detect(words)
+            notEng = ""
+            if not(landetect.detect(words)):
+                notEng = "The text is not in English."
+            else:
+                notEng = "The text is in English."
 
-            return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions)
+            suggestions = ""
+            # end Amir
+            if (isEng):
+                for word in words:
+                    if h.spell(word) == True:
+                        continue
+                    misspelled.append(word)
+                suggestions = dict.fromkeys(misspelled)
+                for key in suggestions:
+                    suggestions[key] = h.suggest(key)
+
+            return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions, notEng=notEng)
 
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
