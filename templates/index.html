@@ -12,9 +12,9 @@
 </head>
 
 <body>
-   <div class="jumbotron text-center">
-       <h1>Team 7- Context Spell Checking Website</h1>
-   </div>
+    <div class="jumbotron text-center">
+        <h1>Team 7- Context Spell Checking Website</h1>
+    </div>
 
     <div class="container">
         <form action="/" method="POST">
@@ -26,7 +26,7 @@
                 <p>{{error}}</p>
                 <p id="misspelled">Misspelled Words:</p>
                 {% for word in misspelled %}
-                <select name = "{{word}}">
+                <select name="{{word}}">
                     <option value="" disabled selected>{{word}}</option>
                     {% for key in suggestions[word] %}
                     <option value={{key}}>{{key}}</option>

@@ -2,6 +2,8 @@
 
 import re
 
+# check if word is in English or not using ascii and utf-8 code
+
 
 def isEnglish(text):
     try:
@@ -10,6 +12,8 @@ def isEnglish(text):
         return False
     else:
         return True
+
+# check if text is in English
 
 
 def detect(words):
