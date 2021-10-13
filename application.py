@@ -62,7 +62,7 @@ def index():
             if not request.form.get("text"):
                 error = "Please provide a text to check"
                 return render_template("index.html", error=error)
-            session['new_text'] = session['text']
+            session['new_text'] = session['given_text']
             for word in session['misspelled']:
                 if request.form.get(word) != None:
                     session['new_text'] = session['new_text'].replace(
