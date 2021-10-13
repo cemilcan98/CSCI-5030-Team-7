@@ -17,10 +17,8 @@ def detect(words):
     flag = False
     for i in words:
         if isEnglish(i):
-            print("this is word: ", i, " and it is an alphabet")
             flag = True
         else:
-            print("this is word: ", i, " and it is not an alphabet")
             flag = False
 
     return flag
