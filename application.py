@@ -52,6 +52,21 @@ def index():
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
 
+        elif request.form["submit_button"] == "example":
+
+            example_dict = {
+                1: 'What can I do with this?',
+                2: "As you can easily notice the second block of text looks more realistic.",
+                3: "Sam is looking for a job.",
+                4: "I need to buy some things from IKEA.",
+                5: "I hope to visit Peru again in the future."
+            }
+
+            #rand_num = random.randint(0, len(example_arr))
+            example_text = example_dict[1]
+            print(example_text)
+            return render_template("/index.html", example_text=example_text)
+
     else:
         return render_template("/index.html")
 
