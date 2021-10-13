@@ -9,9 +9,10 @@ import langDetect
 
 app = Flask(__name__, template_folder="templates")
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 h = Hunspell()
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -20,18 +21,18 @@ def index():
             if not request.form.get("text"):
                 error = "Please provide a text to check"
                 return render_template("index.html", error=error)
-            text = request.form.get("text")
+            session['text'] = request.form.get("text")
             punc = '''!()-[]{};:"\,<>./?@#$%^&*_~'''
-            for element in text:
+            for element in session['text']:
                 if element in punc:
-                    text = text.replace(element, "")
-            words = text.split()
-            misspelled = []
+                    session['text'] = session['text'].replace(element, "")
+            session['words'] = session['text'].split()
+            session['misspelled'] = []
             # Amir
             # this function check if text in english or not
-            isEng = langDetect.detect(words)
+            isEng = langDetect.detect(session['words'])
             notEng = ""
-            if not(langDetect.detect(words)):
+            if not(langDetect.detect(session['words'])):
                 notEng = "The text is not in English."
             else:
                 notEng = "The text is in English."
@@ -39,23 +40,25 @@ def index():
             suggestions = ""
             # end Amir
             if (isEng):
-                for word in words:
+                for word in session['words']:
                     if h.spell(word) == True:
                         continue
-                    misspelled.append(word)
-                suggestions = dict.fromkeys(misspelled)
-                for key in suggestions:
-                    suggestions[key] = h.suggest(key)
+                    session['misspelled'].append(word)
+                session['suggestions'] = dict.fromkeys(session['misspelled'])
+                for key in session['suggestions']:
+                    session['suggestions'][key] = h.suggest(key)
 
-            return render_template("/index.html", text=text, misspelled=misspelled, suggestions=suggestions, notEng=notEng)
+            return render_template("/index.html", text=session['text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=notEng)
 
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
-
+        
+        elif request.form["submit_button"] == "correct":
+            for word in session['misspelled']:
+                session['text'] = session['text'].replace(word, request.form.get(word))
+            return render_template("/index.html", new_text = session['text'])
     else:
         return render_template("/index.html")
 
-
 if __name__ == "__main__":
-
     app.run()
