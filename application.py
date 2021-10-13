@@ -67,7 +67,6 @@ def index():
                 if request.form.get(word) != None:
                     session['new_text'] = session['new_text'].replace(
                         word, request.form.get(word))
-                    print(session['new_text'])
                 else:
                     error = "Please select a correction for all misspelled words"
                     return render_template("/index.html", error=error, text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
