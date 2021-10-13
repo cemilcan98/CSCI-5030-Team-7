@@ -5,9 +5,10 @@ from hunspell import Hunspell
 import string
 import sys
 import langDetect
-
+import random
 
 app = Flask(__name__, template_folder="templates")
+
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
@@ -22,23 +23,24 @@ def index():
                 error = "Please provide a text to check"
                 return render_template("index.html", error=error)
             session['text'] = request.form.get("text")
+            session['given_text'] = session['text']
             punc = '''!()-[]{};:"\,<>./?@#$%^&*_~'''
             for element in session['text']:
                 if element in punc:
                     session['text'] = session['text'].replace(element, "")
             session['words'] = session['text'].split()
             session['misspelled'] = []
-            # Amir
+            
             # this function check if text in english or not
             isEng = langDetect.detect(session['words'])
-            notEng = ""
+            session['notEng'] = ""
             if not(langDetect.detect(session['words'])):
-                notEng = "The text is not in English."
+                session['notEng'] = "The text is not in English."
             else:
-                notEng = "The text is in English."
+                session['notEng'] = "The text is in English."
 
             suggestions = ""
-            # end Amir
+            
             if (isEng):
                 for word in session['words']:
                     if h.spell(word) == True:
@@ -48,15 +50,23 @@ def index():
                 for key in session['suggestions']:
                     session['suggestions'][key] = h.suggest(key)
 
-            return render_template("/index.html", text=session['text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=notEng)
+            return render_template("/index.html", text = session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
 
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
         
         elif request.form["submit_button"] == "correct":
+            if not request.form.get("text"):
+                error = "Please provide a text to check"
+                return render_template("index.html", error=error)
+            session['new_text'] = session['text']
             for word in session['misspelled']:
-                session['text'] = session['text'].replace(word, request.form.get(word))
-            return render_template("/index.html", new_text = session['text'])
+                if request.form.get(word) != None:
+                    session['new_text'] = session['new_text'].replace(word, request.form.get(word))
+                else:
+                    error = "Please select a correction for all misspelled words"
+                    return render_template("/index.html",error = error, text = session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
+            return render_template("/index.html", text = session['given_text'], new_text = session['new_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
 
         elif request.form["submit_button"] == "example":
 
@@ -68,15 +78,12 @@ def index():
                 5: "I hope to visit Peru again in the future."
             }
 
-            #rand_num = random.randint(0, len(example_arr))
-            example_text = example_dict[1]
-            print(example_text)
-            return render_template("/index.html", example_text=example_text)
+            rand_num = random.randint(1, len(example_dict))
+            example_text = example_dict[rand_num]
+            return render_template("/index.html", text=example_text)
 
     else:
         return render_template("/index.html")
 
 if __name__ == "__main__":
     app.run()
-
-
