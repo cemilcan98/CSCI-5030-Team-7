@@ -12,25 +12,37 @@
 </head>
 
 <body>
-    ​
     <div class="jumbotron text-center">
-        <h1>Team 7 - Context Spell Checking Website</h1>
+        <h1>Team 7- Context Spell Checking Website</h1>
     </div>
 
     <div class="container">
         <form action="/" method="POST">
             <div class="form-group">
                 <label for="usr">Enter your phrase here:</label>
-                <input name="text" type="text" class="form-control" id="usr">
+                <input name="text" type="text" class="form-control" id="usr" value="{{text}}">
             </div>
             <div class="output_class">
                 <p>{{error}}</p>
-                <p id="text">Text: {{text}}</p>
-                <p id="misspelled">Misspelled Words: {{misspelled}}</p>
-                <p id="suggestions">Suggestions: {{suggestions}}</p>
+                <p id="misspelled">Misspelled Words:</p>
+                {% for word in misspelled %}
+                <select name="{{word}}">
+                    <option value="" disabled selected>{{word}}</option>
+                    {% for key in suggestions[word] %}
+                    <option value={{key}}>{{key}}</option>
+                    {% endfor %}
+                </select>
+                {% endfor %}
+                <!-- this tag was added by Amir-->
+                <p id="notEng">Detect Language: {{notEng}}</p>
             </div>
-            <button type="submit" name = "submit_button" class="btn btn-primary btn-lg" value = "submit">Submit</button>
-            <button type="submit" name = "submit_button" class="btn btn-danger btn-lg" value = "clear">Clear</button>
+            <div class="output_class">
+                <p>Corrected text: {{new_text}}</p>
+            </div>
+            <button type="submit" name="submit_button" class="btn btn-primary btn-lg" value="submit">Submit</button>
+            <button type="submit" name="submit_button" class="btn btn-danger btn-lg" value="clear">Clear</button>
+            <button type="submit" name="submit_button" class="btn btn-success btn-lg" value="correct">Correct</button>
+            <button type="submit" name="submit_button" class="btn btn-info btn-lg" value="example">Example</button>
             <select name=lang class="Lang-Dropdown">
                 <option value="" disabled selected>Select Language</option>
                 <option value="English">English (EN-US)</option>
