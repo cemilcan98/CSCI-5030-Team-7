@@ -6,6 +6,7 @@ import string
 import sys
 import langDetect
 import random
+from irishspell import irishspell
 
 app = Flask(__name__, template_folder="templates")
 
@@ -14,7 +15,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 h = Hunspell()
-
+s = irishspell()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -22,7 +23,10 @@ def index():
         if request.form["submit_button"] == "submit":
             # check if text is empty or not
             if not request.form.get("text"):
-                error = "Please provide a text to check"
+                error = "Please provide a text to check."
+                return render_template("index.html", error=error)
+            if not request.form.get("language"):
+                error = "Please select a language."
                 return render_template("index.html", error=error)
             session['text'] = request.form.get("text")
             session['given_text'] = session['text']
@@ -34,15 +38,7 @@ def index():
             session['words'] = session['text'].split()
             session['misspelled'] = []
 
-            # this function check if text in english or not using "detect" function in "langDetect"
-            isEng = langDetect.detect(session['words'])
-            session['notEng'] = ""
-            if not(langDetect.detect(session['words'])):
-                session['notEng'] = "The text is not in English."
-            else:
-                session['notEng'] = "The text is in English."
-            # only if the word is in English, then we continue through this function to check spell
-            if (isEng):
+            if request.form.get("language") == "English":
                 for word in session['words']:
                     if h.spell(word) == True:
                         continue
@@ -51,6 +47,15 @@ def index():
                 session['suggestions'] = dict.fromkeys(session['misspelled'])
                 for key in session['suggestions']:
                     session['suggestions'][key] = h.suggest(key)
+            elif request.form.get("language") == "Irish":
+                for word in session['words']:
+                    if s.spell(word) == True:
+                        continue
+                    session['misspelled'].append(word)
+                # create suggestions from the dictionary
+                session['suggestions'] = dict.fromkeys(session['misspelled'])
+                for key in session['suggestions']:
+                    session['suggestions'][key] = s.suggest(key)
 
             return render_template("/index.html", text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
 
