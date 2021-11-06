@@ -13,11 +13,19 @@
     <link rel="stylesheet" href="/static/style.css" />
   </head>
 
-  <body>
+  <body id="main_app">
     <nav class="navbar navbar-dark bg-dark shadow">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <h3>Team 7- Context Spell Checking Website</h3>
+          <h3 class="multilang" lang="en">
+            Team 7- Context Spell Checking Website
+          </h3>
+          <h3 class="multilang" lang="es">
+            Equipo 7- Sitio web de revisión ortográfica de contexto
+          </h3>
+          <h3 class="multilang" lang="ir">
+            Foireann 7- Suíomh Gréasáin Seiceála Litrithe Comhthéacs
+          </h3>
         </a>
       </div>
     </nav>
@@ -25,7 +33,15 @@
     <div class="container app-area">
       <form action="/" method="POST">
         <div class="form-group">
-          <label for="usr">Enter your phrase here:</label>
+          <label class="multilang" lang="en" for="usr"
+            >Enter your phrase here:</label
+          >
+          <label class="multilang" lang="es" for="usr"
+            >Ingrese su frase aquí:</label
+          >
+          <label class="multilang" lang="ir" for="usr"
+            >Iontráil d’abairt anseo:</label
+          >
           <textarea
             name="text"
             id="usr"
@@ -38,7 +54,11 @@
         </div>
         <div class="output_class">
           <p>{{error}}</p>
-          <p id="misspelled">Misspelled Words:</p>
+          <p class="multilang" lang="en" id="misspelled">Misspelled Words:</p>
+          <p class="multilang" lang="es" id="misspelled">
+            Palabras mal escritas:
+          </p>
+          <p class="multilang" lang="ir" id="misspelled">Focail mílitrithe:</p>
           {% for word in misspelled %}
           <div class="col-md-3">
             <select name="{{word}}" class="form-select">
@@ -50,48 +70,141 @@
           </div>
           {% endfor %}
           <!-- this tag was added by Amir-->
-          <p id="notEng">Detect Language: {{notEng}}</p>
+          <p class="multilang" lang="en" id="notEng">
+            Detect Language: {{notEng}}
+          </p>
+          <p class="multilang" lang="es" id="notEng">
+            Detectar idioma: {{notEng}}
+          </p>
+          <p class="multilang" lang="ir" id="notEng">
+            Brath Teanga: {{notEng}}
+          </p>
         </div>
         <div class="output_class">
-          <p>Corrected text: {{new_text}}</p>
+          <p class="multilang" lang="en">Corrected text: {{new_text}}</p>
+          <p class="multilang" lang="es">Texto corregido: {{new_text}}</p>
+          <p class="multilang" lang="ir">Téacs ceartaithe: {{new_text}}</p>
         </div>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-primary btn"
+          class="btn btn-primary btn multilang"
           value="submit"
+          lang="en"
         >
           Submit
         </button>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-danger btn"
+          class="btn btn-primary btn multilang"
+          value="submit"
+          lang="es"
+        >
+          Enviar
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-primary btn multilang"
+          value="submit"
+          lang="ir"
+        >
+          Cuir isteach
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-danger btn multilang"
           value="clear"
+          lang="en"
         >
           Clear
         </button>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-success btn"
+          class="btn btn-danger btn multilang"
+          value="clear"
+          lang="es"
+        >
+          Claro
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-danger btn multilang"
+          value="clear"
+          lang="ir"
+        >
+          Glan
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-success btn multilang"
           value="correct"
+          lang="en"
         >
           Correct
         </button>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-secondary btn"
+          class="btn btn-success btn multilang"
+          value="correct"
+          lang="es"
+        >
+          Correcto
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-success btn multilang"
+          value="correct"
+          lang="ir"
+        >
+          Ceart
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-secondary btn multilang"
           value="example"
+          lang="en"
         >
           Example
         </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-secondary btn multilang"
+          value="example"
+          lang="es"
+        >
+          Ejemplo
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-secondary btn multilang"
+          value="example"
+          lang="ir"
+        >
+          Sampla
+        </button>
         <div class="my-2 col-md-3">
-          <select name="lang" class="Lang-Dropdown form-select">
-            <option value="" disabled selected>Select Language</option>
+          <select
+            name="lang"
+            class="Lang-Dropdown form-select"
+            onchange="changeLanguage(this);"
+          >
+            <option class="multilang" lang="en" value="" disabled selected>
+              Select Language
+            </option>
             <option value="English">English (EN-US)</option>
             <option value="Spanish">Spanish</option>
+            <option value="Irish">Irish</option>
           </select>
         </div>
       </form>
@@ -103,5 +216,8 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="../static/langs.min.js"></script>
+    <script src="../static/jquery.multilang.min.js"></script>
+    <script src="../static/main.js"></script>
   </body>
 </html>
