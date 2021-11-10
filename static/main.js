@@ -38,3 +38,15 @@ function changeLanguage(event) {
     menu: false,
   });
 }
+
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
+$("#textarea-button").click(function () {
+  $("#usr").select();
+  document.execCommand("copy");
+});

@@ -14,7 +14,7 @@
   </head>
 
   <body id="main_app">
-    <nav class="navbar navbar-dark bg-dark shadow">
+    <nav class="navbar navbar-dark bg-dark shadow navbar-gradient">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <h3 class="multilang" lang="en">
@@ -42,15 +42,41 @@
           <label class="multilang" lang="ir" for="usr"
             >Iontráil d’abairt anseo:</label
           >
-          <textarea
-            name="text"
-            id="usr"
-            class="form-control"
-            cols="30"
-            rows="5"
-          >
-{{text}}</textarea
-          >
+          <div class="text-area-container">
+            <textarea
+              name="text"
+              id="usr"
+              class="form-control"
+              cols="30"
+              rows="5"
+            >
+            {{text}}
+            </textarea>
+            <button
+              id="textarea-button"
+              type="button"
+              class="btn btn-sm btn-secondary"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Copy to Clipboard"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-clipboard"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"
+                />
+                <path
+                  d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="output_class">
           <p>{{error}}</p>
