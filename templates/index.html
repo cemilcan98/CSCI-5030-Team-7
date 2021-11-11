@@ -29,6 +29,32 @@
         </a>
       </div>
     </nav>
+    <nav
+      class="
+        navbar-below navbar-dark
+        bg-dark
+        shadow
+        navbar-gradient
+        container-fluid
+      "
+    >
+      <div class="row justify-content-end">
+        <div class="p-2 col-md-3">
+          <select
+            name="lang"
+            class="Lang-Dropdown form-select"
+            onchange="changeLanguage(this);"
+          >
+            <option class="multilang" lang="en" value="" disabled selected>
+              Select Language
+            </option>
+            <option value="English">English (EN-US)</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Irish">Irish</option>
+          </select>
+        </div>
+      </div>
+    </nav>
 
     <div class="container app-area">
       <form action="/" method="POST">
@@ -220,11 +246,7 @@
           Sampla
         </button>
         <div class="my-2 col-md-3">
-          <select
-            name="lang"
-            class="Lang-Dropdown form-select"
-            onchange="changeLanguage(this);"
-          >
+          <select name="lang" class="form-select">
             <option class="multilang" lang="en" value="" disabled selected>
               Select Language
             </option>
