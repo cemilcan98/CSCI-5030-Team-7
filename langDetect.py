@@ -1,3 +1,5 @@
+# I think this function is not useful anymore.
+
 # -*- coding: utf-8 -*-
 
 import re
