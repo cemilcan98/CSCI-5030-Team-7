@@ -83,11 +83,11 @@ decoder_input = [preprocess(
     line, add_start_token=True, add_end_token=False) for line in data['correct']]
 decoder_output = [preprocess(
     line, add_start_token=False, add_end_token=True) for line in data['correct']]
-
+'''
 print(encoder_input[0])
 print(decoder_input[0])
 print(decoder_output[0])
-
+'''
 """Tokenization :"""
 
 # ENCODER INPUT
@@ -102,12 +102,12 @@ INPUT_ENCODER_LENGTH = max_length
 enc_input_encoded = tokenizer.texts_to_sequences(encoder_input)
 enc_input_padded = pad_sequences(
     enc_input_encoded, maxlen=INPUT_ENCODER_LENGTH, padding="post")
-
+'''
 print(enc_input_padded.shape)
 
 print(encoder_input[0])
 print(enc_input_padded[0])
-
+'''
 # DECODER INPUT
 decoder_data = decoder_input.copy()
 decoder_data.extend(decoder_output)
@@ -122,21 +122,21 @@ INPUT_DECODER_LENGTH = max_length
 dec_input_encoded = out_tokenizer.texts_to_sequences(decoder_input)
 dec_input_padded = pad_sequences(
     dec_input_encoded, maxlen=INPUT_DECODER_LENGTH, padding="post", truncating="post")
-
+'''
 print(dec_input_padded.shape)
 
 print(decoder_input[0])
 print(dec_input_padded[0])
-
+'''
 dec_output_encoded = out_tokenizer.texts_to_sequences(decoder_output)
 dec_output_padded = pad_sequences(
     dec_output_encoded, maxlen=INPUT_DECODER_LENGTH, padding="post", truncating="post")
-
+'''
 print(dec_output_padded.shape)
 
 print(decoder_output[1])
 print(dec_output_padded[1])
-
+'''
 """#### FastText Embeddings"""
 
 #!wget - -header = "Host: dl.fbaipublicfiles.com" - -header = "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36" - -header = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" - -header = "Accept-Language: en-US,en;q=0.9,kn;q=0.8" - -header = "Referer: https://fasttext.cc/" "https://dl.fbaipublicfiles.com/fasttext/vectors-english/wiki-news-300d-1M.vec.zip" - c - O 'wiki-news-300d-1M.vec.zip'
@@ -203,7 +203,7 @@ in_embedding_matrix = np.load(
     'GEC/test/in_embedding.npy')
 out_embedding_matrix = np.load(
     'GEC/test/out_embedding.npy')
-print(in_embedding_matrix.shape, out_embedding_matrix.shape)
+#print(in_embedding_matrix.shape, out_embedding_matrix.shape)
 
 # ENCODER
 
@@ -297,8 +297,7 @@ INPUT_VOCAB_SIZE = len(list(tokenizer.word_index)) + 1  # for zero padding +OOV
 OUTPUT_VOCAB_SIZE = len(list(out_tokenizer.word_index)
                         ) + 1  # for zero padding + OOV
 BATCH_SIZE = 16
-print(INPUT_VOCAB_SIZE, INPUT_ENCODER_LENGTH,
-      OUTPUT_VOCAB_SIZE, INPUT_DECODER_LENGTH, BATCH_SIZE)
+#print(INPUT_VOCAB_SIZE, INPUT_ENCODER_LENGTH, OUTPUT_VOCAB_SIZE, INPUT_DECODER_LENGTH, BATCH_SIZE)
 
 """#### Prepare data for feeding to model"""
 
@@ -317,7 +316,7 @@ full_dataset = tf.data.Dataset.zip(((encoder_input_datatset.take(NUMBER_OF_DATAP
 test_dataset = full_dataset.take(50).batch(32)
 train_dataset = full_dataset.skip(50).batch(32)
 
-print(train_dataset, test_dataset)
+#print(train_dataset, test_dataset)
 
 """#### Callback functions"""
 
@@ -416,7 +415,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(), loss=loss_function, metrics=
               f_beta_score])  # tf.keras.metrics.categorical_crossentropy)
 model.fit([input, output], target, steps_per_epoch=1)
 
-model.summary()
+# model.summary()
 
 """WITH FASTTEXT EMBEDDINGS"""
 
