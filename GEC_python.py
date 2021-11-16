@@ -40,9 +40,9 @@ import matplotlib.pyplot as plt
 data = pd.read_csv('preprocessed_15.csv')
 
 pd.options.display.max_colwidth = 500
-data[:50]
+# data[:50]
 
-data[50:100]
+# data[50:100]
 
 """Since preprocessing of data is already done before, all we do is add the tokens required to feed the
  data into our Encoder Decoder model with attention.
@@ -156,7 +156,7 @@ def load_vectors(fname):
     return data
 
 
-embedding_index = load_vectors('wiki-news-300d-1M.vec')
+#embedding_index = load_vectors('wiki-news-300d-1M.vec')
 
 # https://keras.io/examples/nlp/pretrained_word_embeddings/
 word_index = tokenizer.word_index
@@ -164,7 +164,7 @@ num_tokens = len(word_index) + 2
 embedding_dim = 300
 hits = 0
 misses = 0
-
+'''
 embedding_matrix = np.zeros((num_tokens, embedding_dim))
 for word, i in word_index.items():
     embedding_vector = embedding_index.get(word)
@@ -196,7 +196,7 @@ for word, i in word_index.items():
         misses += 1
 print("Converted %d words (%d misses)" % (hits, misses))
 np.save('GEC/test/out_embedding.npy', embedding_matrix)
-
+'''
 """#### VANILLA ENCODER DECODER"""
 
 in_embedding_matrix = np.load(
@@ -473,3 +473,46 @@ def remove_end_token(words):
     words_list = words.split(' ')[:-1]
     words = " ".join(words_list)
     return words
+
+
+def predict(input_sentence):
+    input = input_processor(input_sentence, pad_seq=False)
+
+    INPUT_LENGTH = input.shape[0]  # Or number of inputs
+
+    states = model.layers[0].initialize_states(INPUT_LENGTH)
+
+    encoder_output, encoder_final_state_h, encoder_final_state_c = model.layers[0](
+        input, states)
+    # States to initialize Decoder with
+    states = [encoder_final_state_h, encoder_final_state_c]
+
+    input_decoder = np.zeros((1, 1))
+    input_decoder[0][0] = 2  # <start> for eng vocab
+
+    decoder_output_list = []
+    stop = False
+
+    while stop != True:
+
+        decoder_output, dec_final_state_h, dec_final_state_c = model.layers[1](
+            input_decoder, states)
+
+        states = [dec_final_state_h, dec_final_state_c]
+
+        output = model.layers[2](decoder_output)
+
+        index = np.argmax(output, -1)
+        decoder_output_list.append(index)
+        input_decoder = index
+
+        # or len(decoder_output_list) > input.shape[1]: #Index of <end> for out_tokenizer
+        if index[0][0] == 4:
+            stop = True
+
+    # Get the output tokens and store in arr_out
+    arr_out = [int(np.asarray(i)[0][0]) for i in decoder_output_list]
+
+    # Convert to text
+    output_words = out_tokenizer.sequences_to_texts([arr_out])
+    return output_words
