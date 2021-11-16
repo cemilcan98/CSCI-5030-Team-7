@@ -13,83 +13,248 @@
     <link rel="stylesheet" href="/static/style.css" />
   </head>
 
-  <body>
-    <nav class="navbar navbar-dark bg-dark shadow">
+  <body id="main_app">
+    <nav class="navbar navbar-dark bg-dark shadow navbar-gradient">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <h3>Team 7- Context Spell Checking Website</h3>
+          <h3 class="multilang" lang="en">
+            Team 7- Context Spell Checking Website
+          </h3>
+          <h3 class="multilang" lang="es">
+            Equipo 7- Sitio web de revisión ortográfica de contexto
+          </h3>
+          <h3 class="multilang" lang="ir">
+            Foireann 7- Suíomh Gréasáin Seiceála Litrithe Comhthéacs
+          </h3>
         </a>
+      </div>
+    </nav>
+    <nav
+      class="
+        navbar-below navbar-dark
+        bg-dark
+        shadow
+        navbar-gradient
+        container-fluid
+      "
+    >
+      <div class="row justify-content-end">
+        <div class="p-2 col-md-3">
+          <select
+            name="lang"
+            class="Lang-Dropdown form-select"
+            onchange="changeLanguage(this);"
+          >
+            <option class="multilang" lang="en" value="" disabled selected>
+              Select Language
+            </option>
+            <option value="English">English (EN-US)</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Irish">Irish</option>
+          </select>
+        </div>
       </div>
     </nav>
 
     <div class="container app-area">
       <form action="/" method="POST">
         <div class="form-group">
-          <label for="usr">Enter your phrase here:</label>
-          <textarea
-            name="text"
-            id="usr"
-            class="form-control"
-            cols="30"
-            rows="5"
+          <label class="multilang" lang="en" for="usr"
+            >Enter your phrase here:</label
           >
-{{text}}</textarea
+          <label class="multilang" lang="es" for="usr"
+            >Ingrese su frase aquí:</label
           >
+          <label class="multilang" lang="ir" for="usr"
+            >Iontráil d’abairt anseo:</label
+          >
+          <div class="text-area-container">
+            <textarea
+              name="text"
+              id="usr"
+              class="form-control"
+              cols="30"
+              rows="5"
+            >
+            {{text}}
+            </textarea>
+            <button
+              id="textarea-button"
+              type="button"
+              class="btn btn-sm btn-secondary"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Copy to Clipboard"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-clipboard"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"
+                />
+                <path
+                  d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
         <div class="output_class">
           <p>{{error}}</p>
-          <p id="misspelled">Misspelled Words:</p>
+          <p class="multilang" lang="en" id="misspelled">Misspelled Words:</p>
+          <p class="multilang" lang="es" id="misspelled">
+            Palabras mal escritas:
+          </p>
+          <p class="multilang" lang="ir" id="misspelled">Focail mílitrithe:</p>
           {% for word in misspelled %}
-          <select name="{{word}}">
-            <option value="" disabled selected>{{word}}</option>
-            {% for key in suggestions[word] %}
-            <option value="{{key}}">{{key}}</option>
-            {% endfor %}
-          </select>
+          <div class="col-md-3">
+            <select name="{{word}}" class="form-select">
+              <option value="" disabled selected>{{word}}</option>
+              {% for key in suggestions[word] %}
+              <option value="{{key}}">{{key}}</option>
+              {% endfor %}
+            </select>
+          </div>
           {% endfor %}
           <!-- this tag was added by Amir-->
-          <p id="notEng">Detect Language: {{notEng}}</p>
+          <p class="multilang" lang="en" id="notEng">
+            Detect Language: {{notEng}}
+          </p>
+          <p class="multilang" lang="es" id="notEng">
+            Detectar idioma: {{notEng}}
+          </p>
+          <p class="multilang" lang="ir" id="notEng">
+            Brath Teanga: {{notEng}}
+          </p>
         </div>
         <div class="output_class">
-          <p>Corrected text: {{new_text}}</p>
+          <p class="multilang" lang="en">Corrected text: {{new_text}}</p>
+          <p class="multilang" lang="es">Texto corregido: {{new_text}}</p>
+          <p class="multilang" lang="ir">Téacs ceartaithe: {{new_text}}</p>
         </div>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-primary btn-lg"
+          class="btn btn-primary btn multilang"
           value="submit"
+          lang="en"
         >
           Submit
         </button>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-danger btn-lg"
+          class="btn btn-primary btn multilang"
+          value="submit"
+          lang="es"
+        >
+          Enviar
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-primary btn multilang"
+          value="submit"
+          lang="ir"
+        >
+          Cuir isteach
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-danger btn multilang"
           value="clear"
+          lang="en"
         >
           Clear
         </button>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-success btn-lg"
+          class="btn btn-danger btn multilang"
+          value="clear"
+          lang="es"
+        >
+          Claro
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-danger btn multilang"
+          value="clear"
+          lang="ir"
+        >
+          Glan
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-success btn multilang"
           value="correct"
+          lang="en"
         >
           Correct
         </button>
         <button
           type="submit"
           name="submit_button"
-          class="btn btn-info btn-lg"
+          class="btn btn-success btn multilang"
+          value="correct"
+          lang="es"
+        >
+          Correcto
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-success btn multilang"
+          value="correct"
+          lang="ir"
+        >
+          Ceart
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-secondary btn multilang"
           value="example"
+          lang="en"
         >
           Example
         </button>
-        <select name="lang" class="Lang-Dropdown">
-          <option value="" disabled selected>Select Language</option>
-          <option value="English">English (EN-US)</option>
-          <option value="Spanish">Spanish</option>
-        </select>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-secondary btn multilang"
+          value="example"
+          lang="es"
+        >
+          Ejemplo
+        </button>
+        <button
+          type="submit"
+          name="submit_button"
+          class="btn btn-secondary btn multilang"
+          value="example"
+          lang="ir"
+        >
+          Sampla
+        </button>
+        <div class="my-2 col-md-3">
+          <select name="lang" class="form-select">
+            <option class="multilang" lang="en" value="" disabled selected>
+              Select Language
+            </option>
+            <option value="English">English (EN-US)</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Irish">Irish</option>
+          </select>
+        </div>
       </form>
     </div>
     ​
@@ -99,5 +264,8 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script src="../static/langs.min.js"></script>
+    <script src="../static/jquery.multilang.min.js"></script>
+    <script src="../static/main.js"></script>
   </body>
 </html>
