@@ -3,6 +3,7 @@
 CSCI 5030 - Context Sensitive Spelling Detection 
 
 To run the project:
+
 1- Clone it
 
 2- Unzip irish_frequency_filtered.zip
