@@ -45,10 +45,10 @@
             class="Lang-Dropdown form-select"
             onchange="changeLanguage(this);"
           >
-            <option class="multilang" lang="en" value="" disabled selected>
+            <option class="multilang" lang="en" value="" disabled>
               Select Language
             </option>
-            <option value="English">English (EN-US)</option>
+            <option value="English" selected>English</option>
             <option value="Spanish">Spanish</option>
             <option value="Irish">Irish</option>
           </select>
@@ -122,15 +122,6 @@
           </div>
           {% endfor %}
           <!-- this tag was added by Amir-->
-          <p class="multilang" lang="en" id="notEng">
-            Detect Language: {{notEng}}
-          </p>
-          <p class="multilang" lang="es" id="notEng">
-            Detectar idioma: {{notEng}}
-          </p>
-          <p class="multilang" lang="ir" id="notEng">
-            Brath Teanga: {{notEng}}
-          </p>
         </div>
         <div class="output_class">
           <p class="multilang" lang="en">Corrected text: {{new_text}}</p>
@@ -247,11 +238,10 @@
         </button>
         <div class="my-2 col-md-3">
           <select name="lang" class="form-select">
-            <option class="multilang" lang="en" value="" disabled selected>
+            <option class="multilang" lang="en" value="" disabled>
               Select Language
             </option>
-            <option value="English">English (EN-US)</option>
-            <option value="Spanish">Spanish</option>
+            <option value="English" selected>English (EN-US)</option>
             <option value="Irish">Irish</option>
           </select>
         </div>

@@ -4,8 +4,8 @@ from flask_session import Session
 from hunspell import Hunspell
 import string
 import sys
-import langDetect
 import random
+from irishspell import irishspell
 
 app = Flask(__name__, template_folder="templates")
 
@@ -14,7 +14,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 h = Hunspell()
-
+s = irishspell()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -34,15 +34,7 @@ def index():
             session['words'] = session['text'].split()
             session['misspelled'] = []
 
-            # this function check if text in english or not using "detect" function in "langDetect"
-            isEng = langDetect.detect(session['words'])
-            session['notEng'] = ""
-            if not(langDetect.detect(session['words'])):
-                session['notEng'] = "The text is not in English."
-            else:
-                session['notEng'] = "The text is in English."
-            # only if the word is in English, then we continue through this function to check spell
-            if (isEng):
+            if request.form.get("lang") == "English":
                 for word in session['words']:
                     if h.spell(word) == True:
                         continue
@@ -51,8 +43,17 @@ def index():
                 session['suggestions'] = dict.fromkeys(session['misspelled'])
                 for key in session['suggestions']:
                     session['suggestions'][key] = h.suggest(key)
+            elif request.form.get("lang") == "Irish":
+                for word in session['words']:
+                    if s.spell(word) == True:
+                        continue
+                    session['misspelled'].append(word)
+                # create suggestions from the dictionary
+                session['suggestions'] = dict.fromkeys(session['misspelled'])
+                for key in session['suggestions']:
+                    session['suggestions'][key] = s.suggest(key, 5)
 
-            return render_template("/index.html", text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
+            return render_template("/index.html", text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'])
 
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
@@ -69,8 +70,8 @@ def index():
                         word, request.form.get(word))
                 else:
                     error = "Please select a correction for all misspelled words"
-                    return render_template("/index.html", error=error, text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
-            return render_template("/index.html", text=session['given_text'], new_text=session['new_text'], misspelled=session['misspelled'], suggestions=session['suggestions'], notEng=session['notEng'])
+                    return render_template("/index.html", error=error, text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'])
+            return render_template("/index.html", text=session['given_text'], new_text=session['new_text'], misspelled=session['misspelled'], suggestions=session['suggestions'])
         # if user uses the example button, this function creates some correct and wrong sentences
         elif request.form["submit_button"] == "example":
 
