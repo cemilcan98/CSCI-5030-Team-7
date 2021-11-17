@@ -6,6 +6,7 @@ import string
 import sys
 import random
 from irishspell import irishspell
+from GEC_python import predict
 
 app = Flask(__name__, template_folder="templates")
 
@@ -15,6 +16,7 @@ Session(app)
 
 h = Hunspell()
 s = irishspell()
+
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -43,6 +45,12 @@ def index():
                 session['suggestions'] = dict.fromkeys(session['misspelled'])
                 for key in session['suggestions']:
                     session['suggestions'][key] = h.suggest(key)
+            elif request.form.get("lang") == "En_context":
+                out = predict(session['text'])
+                out2 = str(out)
+                print("output is: ", out)
+                print("output without brackets is: ", out2[2:-8])
+                session['misspelled'].append(out2[2:-8])
             elif request.form.get("lang") == "Irish":
                 for word in session['words']:
                     if s.spell(word) == True:
