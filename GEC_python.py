@@ -200,9 +200,9 @@ np.save('GEC/test/out_embedding.npy', embedding_matrix)
 """#### VANILLA ENCODER DECODER"""
 
 in_embedding_matrix = np.load(
-    'GEC/test/in_embedding.npy')
+    'GEC/in_embedding.npy')
 out_embedding_matrix = np.load(
-    'GEC/test/out_embedding.npy')
+    'GEC/out_embedding.npy')
 #print(in_embedding_matrix.shape, out_embedding_matrix.shape)
 
 # ENCODER
