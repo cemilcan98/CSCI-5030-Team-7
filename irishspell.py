@@ -1,43 +1,79 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Nov  1 13:06:11 2021
+Created on Tue Nov 16 16:41:14 2021
 
 @author: omars
 """
+import math
 import ast
 
 class irishspell:
 
     def __init__(self):
-        self.file = open("irish_dictionary.txt", "r", encoding = "UTF-16")
-        self.corpus = self.file.read()
-        self.irish_dictionary = ast.literal_eval(self.corpus)
-        self.file.close()
-        self.file1 = open("irish_frequency.txt", "r", encoding = "UTF-16")
+        self.file1 = open("irish_frequency_filtered.txt", "r", encoding = "UTF-16")
         self.corpus1 = self.file1.read()
         self.frequency_dictionary = ast.literal_eval(self.corpus1)
         self.file1.close()
+        self.file3 = open("gram_irish_frequency_filtered_3a.txt", "r", encoding = "UTF-16")
+        self.corpus3 = self.file3.read()
+        self.gram_irish_frequency_3 = ast.literal_eval(self.corpus3)
+        self.file3.close()
+        self.suggestions = {}
 
+        self.probability = 25
 
-    def similar(self, word1, word2):
-        word1 = word1 + ' ' * (len(word2) - len(word1))
-        word2 = word2 + ' ' * (len(word1) - len(word2))
-        return sum(1 if i == j else 0 for i, j in zip(word1, word2)) / float(len(word1))
+    def damerau_levenshtein_distance(self, s1, s2):
+        d = {}
+        lenstr1 = len(s1)
+        lenstr2 = len(s2)
+        for i in range(-1,lenstr1+1):
+            d[(i,-1)] = i+1
+        for j in range(-1,lenstr2+1):
+            d[(-1,j)] = j+1
+
+        for i in range(lenstr1):
+            for j in range(lenstr2):
+                if s1[i] == s2[j]:
+                    cost = 0
+                else:
+                    cost = 1
+                d[(i,j)] = min(
+                               d[(i-1,j)] + 1, # deletion
+                               d[(i,j-1)] + 1, # insertion
+                               d[(i-1,j-1)] + cost, # substitution
+                              )
+                if i and j and s1[i]==s2[j-1] and s1[i-1] == s2[j]:
+                    d[(i,j)] = min (d[(i,j)], d[i-2,j-2] + cost) # transposition
+
+        return 1 - d[lenstr1-1,lenstr2-1]/ max(lenstr1, lenstr2)
 
     def spell(self, word):
-        if word not in self.frequency_dictionary:
-            return False
-        else:
-            return True
-
-    def suggest(self, word):
+        word = word.lower()
         self.probabilities = {}
-        self.suggestions = []
-
+        self.conditional = {}
         for word1 in self.frequency_dictionary:
-            self.probabilities[word1] = self.similar(word, word1)
-        self.probabilities = {k: v for k, v in sorted(self.probabilities.items(), reverse = True, key=lambda item: item[1])}
-        keys = self.probabilities.keys()
-        for key in keys:
-            self.suggestions.append(key)
-        return self.suggestions[:10]
+            self.probabilities[word1] = math.pow(self.damerau_levenshtein_distance(word, word1), self.probability) #P(given word | dictionary word)
+            self.conditional[word1] = self.probabilities[word1] * self.frequency_dictionary[word1]
+
+        self.conditional = {k: v for k, v in sorted(self.conditional.items(), reverse = True, key=lambda item: item[1])}
+        self.suggestions[word] = (self.conditional)
+        for key in self.conditional.keys():
+            if list(self.conditional.keys())[0] == word:
+                return True
+            else:
+                return False
+
+    def gram(self, word):
+        exist = []
+        word = word.lower()
+        for gram in self.gram_irish_frequency_3:
+            if word in gram:
+                exist.append(gram)
+        return exist
+
+    def suggest(self, word, n):
+        word = word.lower()
+        self.suggestion = []
+        for key in self.suggestions[word].keys():
+            self.suggestion.append(key)
+        return self.suggestion[:n]

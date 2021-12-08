@@ -1,16 +1,33 @@
-.output_class{
-    background-color:whitesmoke;
-    border-style: double;
-    padding: 10px;
-    margin: 10px;
+.navbar {
+  position: relative;
+  height: 160px;
 }
 
-#output_text{
-    color: red;
-    font-size: 10px;
+.navbar-below {
+  /* position: relative; */
+  /* height: 160px; */
 }
 
-.Lang-Dropdown{
-    float: right;
+.navbar-brand {
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
 }
 
+.navbar-gradient {
+  background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+}
+
+.app-area {
+  margin-top: 2.5rem;
+}
+
+.text-area-container {
+  position: relative;
+}
+
+.text-area-container .btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
