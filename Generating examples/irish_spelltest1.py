@@ -6,7 +6,6 @@ Created on Sun Dec  5 19:42:37 2021
 """
 import ast
 import unicodedata
-import nltk
 import math
 
 class irishspell:
@@ -113,7 +112,7 @@ class irishspell:
 
 if __name__ == '__main__':
     s = irishspell()
-    file = open('input.txt', 'r', encoding = "UTF-8")
+    file = open('1.txt', 'r', encoding = "UTF-8")
     predictions = open('pval1.tsv', 'w', encoding = "UTF-8")
     count = 0
     for line in file:

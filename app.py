@@ -7,6 +7,7 @@ import sys
 import random
 from irishspell import irishspell
 from GEC_python import predict
+import nltk
 
 app = Flask(__name__, template_folder="templates")
 
@@ -33,6 +34,7 @@ def index():
             for element in session['text']:
                 if element in punc:
                     session['text'] = session['text'].replace(element, "")
+            session['text'] = session['text'].lower()
             session['words'] = session['text'].split()
             session['misspelled'] = []
 
@@ -45,23 +47,33 @@ def index():
                 session['suggestions'] = dict.fromkeys(session['misspelled'])
                 for key in session['suggestions']:
                     session['suggestions'][key] = h.suggest(key)
+                return render_template("/index.html", text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'])
             elif request.form.get("lang") == "En_context":
                 out = predict(session['text'])
                 out2 = str(out)
                 print("output is: ", out)
                 print("output without brackets is: ", out2[2:-8])
                 session['misspelled'].append(out2[2:-8])
+                return render_template("/index.html", text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'])
             elif request.form.get("lang") == "Irish":
+                session['trigrams'] = list(nltk.ngrams(nltk.word_tokenize(session['text']), 3))
+                s = irishspell()
+                session['prob'] = {}
+
                 for word in session['words']:
                     if s.spell(word) == True:
                         continue
                     session['misspelled'].append(word)
-                # create suggestions from the dictionary
-                session['suggestions'] = dict.fromkeys(session['misspelled'])
-                for key in session['suggestions']:
-                    session['suggestions'][key] = s.suggest(key, 5)
+                for gram in session['trigrams']:
+                    for key in session['misspelled']:
+                        session['suggestions'][key] = s.suggest(key,5)
+                        if key == gram[1]:
+                            session['prob'][key] = s.gram(gram, key)
+                for mis in session['misspelled']:
+                    if mis not in session['prob'].keys():
+                        session['prob'][mis] = session['suggestions'][mis]
 
-            return render_template("/index.html", text=session['given_text'], misspelled=session['misspelled'], suggestions=session['suggestions'])
+                return render_template("/index.html", text=session['given_text'], misspelled=session['misspelled'], suggestions=session['prob'])
 
         elif request.form["submit_button"] == "clear":
             return render_template("/index.html")
@@ -102,6 +114,6 @@ def index():
     else:
         return render_template("/index.html")
 
-
 if __name__ == "__main__":
     app.run()
+    #text = "Dia duite is anim dom Omar"
