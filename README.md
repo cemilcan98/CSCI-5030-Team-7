@@ -13,3 +13,6 @@ To run the project:
 4- Download weight from this link and add it in GEC/ENC_DEC_EMB directory:
 
 https://drive.google.com/file/d/17fX3nTEE_U2TsDHfLre_g3oNBALbQCaG/view?usp=sharing
+
+The last weight for the English context checker is available here:
+https://drive.google.com/file/d/1-ki0oXcr1HmmymysOaqYB6eisfeRyGyu/view?usp=sharing
